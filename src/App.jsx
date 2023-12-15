@@ -1,10 +1,11 @@
 import "./App.css";
+import FirebasePractice from "./Components/FirebasePractice";
 
 function App() {
   return (
     <>
       <div>
-        <h1>Firebase Revision</h1>
+        <FirebasePractice />
       </div>
     </>
   );
