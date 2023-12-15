@@ -85,6 +85,16 @@ export default function FirebasePractice() {
     };
 
     getData();
+
+    const getSingleData = () => {
+      const singleDocRef = doc(db, "Books", "GU6MtIpVExVjCDrJist8");
+
+      onSnapshot(singleDocRef, (doc) => {
+        console.log("Single Document Data", doc.data(), doc.id);
+      });
+    };
+
+    getSingleData();
   }, []);
 
   return (
