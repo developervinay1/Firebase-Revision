@@ -5,7 +5,11 @@ import {
   doc,
   getDocs,
   onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
   setDoc,
+  where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
@@ -22,6 +26,7 @@ export default function FirebasePractice() {
     addDoc(colRef, {
       Title: title,
       Author: author,
+      createdAt: serverTimestamp(),
     })
       .then(() => {
         alert("Data Added");
@@ -62,7 +67,15 @@ export default function FirebasePractice() {
     const getData = () => {
       const colRef = collection(db, "Books");
 
-      onSnapshot(colRef, (snapshot) => {
+      // query specific data in firebase using query function
+
+      const q = query(
+        colRef,
+        where("Author", "==", "Vinay"),
+        orderBy("Title", "asc")
+      );
+
+      onSnapshot(q, (snapshot) => {
         let books = [];
         snapshot.docs.map((doc) => {
           return books.push({ ...doc.data(), id: doc.id });
