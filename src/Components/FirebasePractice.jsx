@@ -50,7 +50,7 @@ export default function FirebasePractice() {
     await deleteDoc(docRef);
   };
 
-  // Update Document
+  // Update Document in firebase using updateDoc and doc Function
 
   const updateData = async () => {
     const docRef = doc(db, "Books", `${documentId}`);
