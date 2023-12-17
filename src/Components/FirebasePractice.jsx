@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function FirebasePractice() {
   const [title, setTitle] = useState("");
@@ -36,10 +37,16 @@ export default function FirebasePractice() {
       createdAt: serverTimestamp(),
     })
       .then(() => {
-        alert("Data Added");
+        toast("Data Added", {
+          theme: "colored",
+          type: "success",
+        });
       })
       .catch((error) => {
-        alert(error);
+        toast("An Error Occured While Adding Document.", {
+          theme: "dark",
+          type: "error",
+        });
       });
   };
 
@@ -47,7 +54,19 @@ export default function FirebasePractice() {
 
   const deleleDoc = async () => {
     const docRef = doc(db, "Books", docId);
-    await deleteDoc(docRef);
+    await deleteDoc(docRef)
+      .then(() => {
+        toast("Your Document Deleted Successfully.", {
+          theme: "colored",
+          type: "error",
+        });
+      })
+      .catch(() => {
+        toast("An Error Occured While Deleting Document.", {
+          theme: "dark",
+          type: "error",
+        });
+      });
   };
 
   // Update Document in firebase using updateDoc and doc Function
@@ -99,7 +118,7 @@ export default function FirebasePractice() {
         orderBy("Title", "asc")
       );
 
-      onSnapshot(q, (snapshot) => {
+      onSnapshot(colRef, (snapshot) => {
         let books = [];
         snapshot.docs.map((doc) => {
           return books.push({ ...doc.data(), id: doc.id });
